@@ -1,0 +1,943 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>AI - School Assistant</title>
+     <link rel="stylesheet" href="school-ai-chatbot.css">
+</head>
+
+<body>
+
+<div class="app">
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+
+        <div class="logo">
+            <div class="logo-icon">🤖</div>
+
+            <div>
+                <h2>TTI Chatbot</h2>
+                <span> Tti School Assistant</span>
+            </div>
+        </div>
+
+        <div class="menu-title">Workspace</div>
+
+        <div class="menu-item active">
+            <span>💬</span>
+            AI Assistant
+        </div>
+
+        <div class="menu-item">
+            <span>📊</span>
+            Dashboard
+        </div>
+
+        <div class="menu-item">
+            <span>📚</span>
+            Courses
+        </div>
+
+        <div class="menu-item">
+            <span>📝</span>
+            Admissions
+        </div>
+
+        <div class="menu-item">
+            <span>🎓</span>
+            Student Services
+        </div>
+
+        <div class="menu-item">
+            <span>🛠️</span>
+            ICT Support
+        </div>
+
+        <div class="menu-title">Support</div>
+
+        <div class="menu-item">
+            <span>❓</span>
+            Help Center
+        </div>
+
+        <div class="sidebar-bottom">
+            <span class="online-dot"></span>
+            AI Assistant Online
+            <br><br>
+            Ask questions about courses, admissions, fees, exams and student services.
+        </div>
+
+    </aside>
+
+
+    <!-- MAIN -->
+    <main class="main">
+
+        <!-- TOPBAR -->
+        <header class="topbar">
+
+            <div>
+                <h2>Student Assistant</h2>
+                <p>Your intelligent school information assistant</p>
+            </div>
+
+            <div class="profile">
+                <div class="profile-icon">AW</div>
+            </div>
+
+        </header>
+
+
+        <!-- CONTENT -->
+        <section class="content">
+
+            <!-- CHAT -->
+            <div class="chat-container">
+
+                <div class="chat-header">
+
+                    <div class="bot-info">
+
+                        <div class="bot-avatar">
+                            🤖
+                        </div>
+
+                        <div>
+                            <h3>TTI Assistant</h3>
+                            <p>AI School Assistant • Ready to help</p>
+                        </div>
+
+                    </div>
+
+                    <div class="status">
+                        🟢 Online
+                    </div>
+
+                </div>
+
+
+                <!-- CHAT BOX -->
+                <div class="chat-box" id="chatBox">
+
+                    <div class="message bot">
+
+                        <div class="message-avatar">
+                            🤖
+                        </div>
+
+                        <div>
+                            <div class="bubble">
+                                👋 <strong>Hello!</strong><br><br>
+
+                                I'm <strong>TTI</strong>, your school virtual assistant.
+                                I can help you with courses, admissions, fees, exams,
+                                registration, ICT support and student services.
+                                <br><br>
+                                What would you like to know?
+                            </div>
+
+                            <div class="time">
+                                Just now
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- TYPING -->
+                <div class="typing" id="typing">
+
+                    <span></span>
+                    <span></span>
+                    <span></span>
+
+                </div>
+
+
+                <!-- INPUT -->
+                <div class="input-area">
+
+                    <div class="input-wrapper">
+
+                        <input
+                            type="text"
+                            id="userInput"
+                            placeholder="Ask me anything about the school..."
+                            autocomplete="off"
+                        >
+
+                        <button class="send-btn" onclick="sendMessage()">
+                            ➤
+                        </button>
+
+                    </div>
+
+                    <div class="input-note">
+                        TTI can answer questions about school services and programmes.
+                        Press Enter to send.
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- RIGHT PANEL -->
+            <aside class="right-panel">
+
+                <div class="panel">
+
+                    <h3>⚡ Quick Questions</h3>
+
+                    <p class="panel-description">
+                        Try one of these questions
+                    </p>
+
+                    <button class="quick-btn"
+                        onclick="quickQuestion('What courses do you offer?')">
+                        📚 What courses do you offer?
+                    </button>
+
+                    <button class="quick-btn"
+                        onclick="quickQuestion('How can I apply for admission?')">
+                        📝 How do I apply?
+                    </button>
+
+                    <button class="quick-btn"
+                        onclick="quickQuestion('What are the admission requirements?')">
+                        📋 Admission requirements
+                    </button>
+
+                    <button class="quick-btn"
+                        onclick="quickQuestion('How much are the school fees?')">
+                        💰 School fees
+                    </button>
+
+                    <button class="quick-btn"
+                        onclick="quickQuestion('Where is the school located?')">
+                        📍 School location
+                    </button>
+
+                    <button class="quick-btn"
+                        onclick="quickQuestion('When are the exams?')">
+                        📝 Exam information
+                    </button>
+
+                    <button class="quick-btn"
+                        onclick="quickQuestion('How can I get ICT support?')">
+                        🛠️ ICT support
+                    </button>
+
+                </div>
+
+
+                <div class="panel ai-card">
+
+                    <h3> Tti Assistant</h3>
+
+                    <p>
+                        This chatbot uses an intent-based AI approach to
+                        understand different student questions and provide
+                        relevant school information.
+                    </p>
+
+                    <div class="ai-status">
+                        <span class="online-dot"></span>
+                        System operational
+                    </div>
+
+                </div>
+
+            </aside>
+
+        </section>
+
+    </main>
+
+</div>
+
+
+<script>
+
+    /* ==========================================
+       SCHOOL CHATBOT
+    ========================================== */
+
+    const chatBox = document.getElementById("chatBox");
+    const userInput = document.getElementById("userInput");
+    const typing = document.getElementById("typing");
+
+
+    /* ==========================================
+       INTENTS
+    ========================================== */
+
+    const intents = [
+
+        {
+            name: "greeting",
+            keywords: [
+                "hello", "hi", "hey", "good morning",
+                "good afternoon", "good evening", "greetings"
+            ],
+            response:
+                "👋 Hello! Welcome to the TUK virtual assistant. How can I help you today?"
+        },
+
+        {
+            name: "courses",
+            keywords: [
+                "courses", "programmes", "programs",
+                "what do you offer", "courses offered",
+                "study", "programmes offered"
+            ],
+            response:
+                `<strong>📚 Courses Offered</strong><br><br>
+                We offer several programmes including:<br><br>
+                • Diploma in Computer Science<br>
+                • Diploma in Information Technology<br>
+                • Diploma in Business Management<br>
+                • Diploma in Electrical Engineering<br><br>
+                Ask me about a specific course for more information.`
+        },
+
+        {
+            name: "computer_science",
+            keywords: [
+                "computer science",
+                "computer science course",
+                "cs course",
+                "diploma computer science"
+            ],
+            response:
+                `<strong>💻 Computer Science</strong><br><br>
+                The minimum requirement entry to pursue this course is a C-(KCSE GRADE)
+                The Computer Science programme focuses on programming,
+                databases, networking, operating systems, algorithms,
+                artificial intelligence and web development among others.`
+        },
+
+        {
+            name: "information_technology",
+            keywords: [
+                "information technology",
+                "it course",
+                "diploma it",
+                "information technology course"
+            ],
+            response:
+                `<strong>🖥️ Information Technology</strong><br><br>
+                The minimum requirement entry to pursue this course is a C-(KCSE GRADE)
+                The IT programme covers computer systems, networking,
+                databases, technical support, web development and
+                information systems.`
+        },
+
+        {
+            name: "admission",
+            keywords: [
+                "admission",
+                "apply",
+                "application",
+                "join school",
+                "joining",
+                "how can i apply",
+                "how do i apply"
+            ],
+            response:
+                `<strong>📝 Admission</strong><br><br>
+                You can apply by obtaining the admission/application
+                information from the institution and submitting the
+                required documents.<br><br>
+                Contact the admissions office for the current intake
+                and application procedure.`
+        },
+
+        {
+            name: "requirements",
+            keywords: [
+                "requirements",
+                "entry requirements",
+                "qualifications",
+                "what do i need",
+                "documents needed",
+                "admission requirements"
+            ],
+            response:
+                `<strong>📋 Admission Requirements</strong><br><br>
+                Admission requirements depend on the programme you want
+                to study. You may be required to provide academic
+                certificates, identification documents and other
+                supporting documents.<br><br>
+                Contact admissions for programme-specific requirements.`
+        },
+
+        {
+            name: "fees",
+            keywords: [
+                "fees", "fee", "school fees",
+                "tuition", "cost", "how much",
+                "payment", "pay fees"
+            ],
+            response:
+                `<strong> School Fees</strong><br><br>
+                Fees vary depending on the programme and study level.
+                Fees are paid through KCB Bank, Thika Branch
+               **Bank:** KCB Bank
+               **Branch:** Thika
+               **Account Name:** Thika Technical Training Institute
+               **Account Number:** 1263884806
+
+               Please use the correct student details/reference when making your payment and keep your payment confirmation.
+
+               For any clarification about fees or payment, contact the **Finance Office**.
+
+                Please contact the finance office for the current
+                fee structure and approved payment methods.`
+        },
+
+        {
+            name: "location",
+            keywords: [
+                "location", "where are you",
+                "where is the school",
+                "address", "directions",
+                "located"
+            ],
+            response:
+                `<strong>📍 School Location</strong><br><br>
+                📍 **Directions to Thika Technical Training Institute**
+
+                **Location:** Thika Town, along **General Kago Road**, next to **Thika Level 5 Hospital**.
+
+                **By Road:**
+                From Thika Town, follow General Kago Road towards Thika Level 5 Hospital. The institute is located next to the hospital.
+
+                **By Public Transport:**
+                Take a vehicle heading to Thika Town. From the Thika Town bus stop, the institute is approximately a 15-minute walk.
+
+                **Contact:** +254 740 150 798
+
+                You can search **“Thika Technical Training Institute”** on Google Maps for turn-by-turn directions.
+.`
+        },
+
+        {
+            name: "exams",
+            keywords: [
+                "exam", "exams", "examination",
+                "test", "assessment", "exam dates"
+            ],
+            response:
+                `<strong>📝 Exams</strong><br><br>
+                Examination dates depend on your programme and examination
+                schedule. Students should check the official examination
+                timetable or contact the academic office.`
+        },
+
+        {
+            name: "results",
+            keywords: [
+                "results", "exam results",
+                "marks", "grades", "check results"
+            ],
+            response:
+                `<strong>📊 Examination Results</strong><br><br>
+                Examination results are normally released through the
+                institution's official channels sucha as the school portal.Visit the academic
+                office if you need assistance accessing your results.`
+        },
+
+        {
+            name: "registration",
+            keywords: [
+                "registration", "register",
+                "course registration",
+                "student registration",
+                "unit registration"
+            ],
+            response:
+                `<strong>📝 Registration</strong><br><br>
+                Students should complete registration within the required
+                registration period. 
+                Online student registartion is done through the school portal,for the continuing students,for others please visit the receptionist and do your registration manually.`
+        },
+
+        {
+            name: "timetable",
+            keywords: [
+                "timetable", "class timetable",
+                "schedule", "classes", "lesson"
+            ],
+            response:
+                `<strong>📅 Timetable</strong><br><br>
+                Your class timetable can normally be obtained from the
+                academic department or student portal,
+                class represantitives are usually given the timetable to share it to the members.`
+        },
+
+        {
+            name: "library",
+            keywords: [
+                "library", "books", "reading",
+                "study materials", "resources"
+            ],
+            response:
+                `<strong>📚 Library</strong><br><br>
+                The library provides students with learning materials,
+                reference books and study resources. Please check with
+                the library for opening hours and borrowing procedures, 
+                No entry of bags to the school library.`
+        },
+
+        {
+            name: "computer_lab",
+            keywords: [
+                "computer lab", "computer laboratory",
+                "lab", "computers", "laboratory"
+            ],
+            response:
+                `<strong>💻 Computer Laboratory</strong><br><br>
+                The computer laboratory provides students with access
+                to computers and other learning resources for practical
+                work and assignments.`
+        },
+
+        {
+            name: "wifi",
+            keywords: [
+                "wifi", "wi-fi", "internet",
+                "internet connection", "network"
+            ],
+            response:
+                `<strong>📶 Wi-Fi & Internet</strong><br><br>
+                Students can contact ICT support for assistance with
+                campus internet access, Wi-Fi connection and account
+                configuration.`
+        },
+
+        {
+            name: "ict_support",
+            keywords: [
+                "ict support", "technical support",
+                "computer support", "it support",
+                "ict help", "help desk"
+            ],
+            response:
+                `<strong>🛠️ ICT Support</strong><br><br>
+                ICT support can assist with computer problems,
+                network access, software issues, passwords and
+                other technical challenges.<br><br>
+                Contact the ICT help desk for assistance.`
+        },
+
+        {
+            name: "password",
+            keywords: [
+                "password", "forgot password",
+                "reset password", "password reset",
+                "login problem"
+            ],
+            response:
+                `<strong>🔐 Password Support</strong><br><br>
+                If you have forgotten your password, contact ICT support
+                or the relevant system administrator to request a secure
+                password reset.`
+        },
+
+        {
+            name: "student_id",
+            keywords: [
+                "student id", "id card",
+                "student card", "identification card"
+            ],
+            response:
+                `<strong>🪪 Student ID</strong><br><br>
+                Student ID cards are normally issued through the
+                appropriate student administration office.`
+        },
+
+        {
+            name: "lost_id",
+            keywords: [
+                "lost id", "lost my id",
+                "missing id", "replacement id"
+            ],
+            response:
+                `<strong>🪪 Lost Student ID</strong><br><br>
+                Report a lost student ID to the student administration
+                office and ask about the replacement procedure.`
+        },
+
+        {
+            name: "attachment",
+            keywords: [
+                "attachment", "industrial attachment",
+                "internship", "field attachment",
+                "industrial training"
+            ],
+            response:
+                `<strong>💼 Industrial Attachment</strong><br><br>
+                Students may need to complete industrial attachment
+                depending on their programme requirements. Contact your
+                department for attachment guidelines and documentation.`
+        },
+
+        {
+            name: "accommodation",
+            keywords: [
+                "hostel", "accommodation",
+                "boarding", "residence",
+                "where can i stay"
+            ],
+            response:
+                `<strong>🏠 Accommodation</strong><br><br>
+                For information about student accommodation, availability
+                and application procedures, contact the student affairs
+                or accommodation office.`
+        },
+
+        {
+            name: "teachers",
+            keywords: [
+                "teachers", "lecturers",
+                "instructors", "trainers",
+                "teaching staff"
+            ],
+            response:
+                `<strong>👨‍🏫 Teaching Staff</strong><br><br>
+                Our teaching staff support students through classroom
+                instruction, practical training, assignments and academic
+                guidance.`
+        },
+
+        {
+            name: "principal",
+            keywords: [
+                "principal", "head of school",
+                "school head", "director"
+            ],
+            response:
+                `<strong>🏫 School Administration</strong><br><br>
+                For matters requiring senior administration, please
+                contact the institution's main administration office.`
+        },
+
+        {
+            name: "clubs",
+            keywords: [
+                "clubs", "student clubs",
+                "organizations", "societies"
+            ],
+            response:
+                `<strong>🎭 Student Clubs</strong><br><br>
+                Student clubs and societies provide opportunities for
+                students to develop skills, socialize and participate
+                in activities outside class.`
+        },
+
+        {
+            name: "sports",
+            keywords: [
+                "sports", "football", "games",
+                "athletics", "sporting"
+            ],
+            response:
+                `<strong>⚽ Sports</strong><br><br>
+                Students can participate in sports and recreational
+                activities available through the institution.`
+        },
+
+        {
+            name: "contact",
+            keywords: [
+                "contact", "phone number",
+                "email", "contact details",
+                "reach school"
+            ],
+            response:
+                `<strong>📞 Contact Us</strong><br><br>
+                For official enquiries, please contact the school
+                administration through the institution's official
+                communication channels.`
+        },
+
+        {
+            name: "thanks",
+            keywords: [
+                "thank you", "thanks",
+                "thank", "appreciate"
+            ],
+            response:
+                `😊 You're very welcome! I'm always happy to help.
+                Do you have another question?`
+        },
+
+        {
+            name: "goodbye",
+            keywords: [
+                "bye", "goodbye",
+                "see you", "talk later"
+            ],
+            response:
+                `👋 Goodbye! Have a great day and all the best with
+                your studies!`
+        }
+
+    ];
+
+
+    /* ==========================================
+       NORMALIZE TEXT
+    ========================================== */
+
+    function normalize(text) {
+
+        return text
+            .toLowerCase()
+            .replace(/[^\w\s]/gi, "")
+            .trim();
+
+    }
+
+
+    /* ==========================================
+       FIND INTENT
+    ========================================== */
+
+    function findIntent(message) {
+
+        const text = normalize(message);
+
+        let bestIntent = null;
+        let highestScore = 0;
+
+        intents.forEach(intent => {
+
+            let score = 0;
+
+            intent.keywords.forEach(keyword => {
+
+                const key = normalize(keyword);
+
+                if (text.includes(key)) {
+
+                    /*
+                       Longer keywords receive more weight.
+                       Example:
+                       "computer science course"
+                       is stronger than "course".
+                    */
+
+                    score += key.length;
+
+                }
+
+            });
+
+            if (score > highestScore) {
+
+                highestScore = score;
+                bestIntent = intent;
+
+            }
+
+        });
+
+        return {
+            intent: bestIntent,
+            score: highestScore
+        };
+
+    }
+
+
+    /* ==========================================
+       SEND MESSAGE
+    ========================================== */
+
+    function sendMessage() {
+
+        const message = userInput.value.trim();
+
+        if (message === "") {
+            return;
+        }
+
+        addMessage(message, "user");
+
+        userInput.value = "";
+
+        showTyping();
+
+        setTimeout(() => {
+
+            hideTyping();
+
+            const result = findIntent(message);
+
+            let response;
+
+            if (result.intent && result.score >= 4) {
+
+                response = result.intent.response;
+
+            } else {
+
+                response =
+                    `<strong>🤔 I'm not completely sure about that.</strong><br><br>
+                    I can help you with:<br><br>
+                    • Courses<br>
+                    • Admissions<br>
+                    • Requirements<br>
+                    • School fees<br>
+                    • Exams<br>
+                    • Registration<br>
+                    • ICT support<br>
+                    • Library<br>
+                    • Computer laboratory<br>
+                    • Student services<br><br>
+                    Try asking your question in another way.`;
+
+            }
+
+            addMessage(response, "bot");
+
+        }, 900);
+
+    }
+
+
+    /* ==========================================
+       QUICK QUESTION
+    ========================================== */
+
+    function quickQuestion(question) {
+
+        userInput.value = question;
+
+        sendMessage();
+
+    }
+
+
+    /* ==========================================
+       ADD MESSAGE
+    ========================================== */
+
+    function addMessage(text, sender) {
+
+        const message = document.createElement("div");
+
+        message.className = `message ${sender}`;
+
+        const currentTime = new Date().toLocaleTimeString([], {
+            hour: "2-digit",
+            minute: "2-digit"
+        });
+
+        if (sender === "bot") {
+
+            message.innerHTML = `
+
+                <div class="message-avatar">
+                    🤖
+                </div>
+
+                <div>
+
+                    <div class="bubble">
+                        ${text}
+                    </div>
+
+                    <div class="time">
+                        ${currentTime}
+                    </div>
+
+                </div>
+
+            `;
+
+        } else {
+
+            message.innerHTML = `
+
+                <div>
+
+                    <div class="bubble">
+                        ${text}
+                    </div>
+
+                    <div class="time">
+                        ${currentTime}
+                    </div>
+
+                </div>
+
+                <div class="message-avatar">
+                    👤
+                </div>
+
+            `;
+
+        }
+
+        chatBox.appendChild(message);
+
+        chatBox.scrollTop = chatBox.scrollHeight;
+
+    }
+
+
+    /* ==========================================
+       TYPING ANIMATION
+    ========================================== */
+
+    function showTyping() {
+
+        typing.style.display = "flex";
+
+        chatBox.scrollTop = chatBox.scrollHeight;
+
+    }
+
+
+    function hideTyping() {
+
+        typing.style.display = "none";
+
+    }
+
+
+    /* ==========================================
+       ENTER KEY
+    ========================================== */
+
+    userInput.addEventListener("keydown", function(event) {
+
+        if (event.key === "Enter") {
+
+            sendMessage();
+
+        }
+
+    });
+
+
+    /* ==========================================
+       STARTUP
+    ========================================== */
+
+    userInput.focus();
+
+</script>
+
+</body>
+</html>
+```
